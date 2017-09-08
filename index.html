@@ -1,0 +1,58 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>todos</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body >
+    <div ng-controller="MyController">
+        <section class="todoapp" >
+            <header class="header">
+                <h1>todos</h1>
+                <input class="new-todo" placeholder="What needs to be done?" autofocus ng-model="text" ng-keypress="checkKey($event)">
+            </header>
+            <section class="main">
+                <input type="checkbox" class="toggle-all" ng-click="toggleAll()" >
+                <ul class="todo-list">
+                    <li ng-repeat="item in data | filterHide:activeFilter">
+                        <input type="checkbox" class="toggle" ng-model="item.checked" ng-click="showClearComplete()">
+                        <label>{{item.value}}</label>
+                        <button class="destroy" ng-click="destroy(item)"></button>
+                    </li>
+                </ul>
+                <footer class="footer">
+                    <span class="todo-count">{{counter()}} items left</span>
+                    <div class="filters">
+                        <a ng-repeat="a in filt" href="#" ng-class="{selected: a.selected}"  ng-click="filters(a)">{{a.text}}</a>
+                    </div>
+                    <button class="clear-completed" ng-hide="invis" ng-click="clear()">Clear completed</button>
+                </footer>
+            </section>
+        </section>
+        <footer class="info">
+            <p>Double-click to edit a todo</p>
+            <p>
+                "Written by "
+                <a href="http://twitter.com/lukeed05">Luke Edwards</a>
+            </p>
+            <p>
+                "Refactored by "
+                <a href="https://github.com/xorgy">Aaron Muir Hamilton</a>
+            </p>
+            <p>
+                "Part of "
+                <a href="http://todomvc.com">TodoMVC</a>
+            </p>
+
+        </footer>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <script src="common.js"></script>
+</body>
+</html>

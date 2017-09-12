@@ -1,5 +1,23 @@
 var app = angular.module('app',[]);
 
+app.directive('pressEnter', function () {
+    return function ($scope, element, attrs) {
+        element.bind("keypress", function (event) {
+            if(event.which === 13 && $scope.text) {
+                $scope.dataInitial();
+                $scope.$apply();
+                // event.preventDefault();
+            }
+        });
+    };
+});
+
+app.service('myService', function(){
+    this.dataInit = function(data, text){
+        data.push({value: text, checked: false});
+        return data
+    };
+});
 
 app.factory('getUsers',[ "$http", function($http){
         var usersList = {};
@@ -43,9 +61,9 @@ app.filter('filterHide', function(){
 });
 
 
-app.controller('MyController',['$scope', 'filterHideFilter', 'getUsers', MyController]);
+app.controller('MyController',['$scope', 'filterHideFilter', 'getUsers', 'myService', MyController]);
 
-function MyController($scope, filterHideFilter, getUsers){
+function MyController($scope, filterHideFilter, getUsers, myService){
     $scope.data = angular.fromJson(localStorage.getItem('myData')) || [];
 
     $scope.filt = [
@@ -55,7 +73,7 @@ function MyController($scope, filterHideFilter, getUsers){
     ];
     $scope.invis= true;
     $scope.activeFilter = $scope.filt[0];
-    getUsers.getData($scope.data);
+    // getUsers.getData($scope.data);
 
     function setStorage(){
         localStorage.setItem('myData', angular.toJson($scope.data));
@@ -67,11 +85,9 @@ function MyController($scope, filterHideFilter, getUsers){
         $scope.data.forEach(function(el){el.checked = bool})
     }
 
-    $scope.checkKey = function (event) {
-        if(event.keyCode === 13 && $scope.text !== ""){
-            $scope.data.push({value: $scope.text, checked: false});
-            $scope.text= "";
-        }
+    $scope.dataInitial = function () {
+            myService.dataInit($scope.data, $scope.text);
+            $scope.text = "";
     };
 
     $scope.toggleAll = function(){

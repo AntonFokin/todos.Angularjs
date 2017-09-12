@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="app">
+<html data-ng-app="app">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -12,8 +12,8 @@
     <div ng-controller="MyController">
         <section class="todoapp" >
             <header class="header">
-                <h1>todos</h1>
-                <input class="new-todo" placeholder="What needs to be done?" autofocus ng-model="text" ng-keypress="checkKey($event)">
+                <h1 >todos</h1>
+                <input class="new-todo" placeholder="What needs to be done?" autofocus ng-model="text" press-enter>
             </header>
             <section class="main">
                 <input type="checkbox" class="toggle-all" ng-click="toggleAll()" >
